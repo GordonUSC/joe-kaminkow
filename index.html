@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Joe Kaminkow — Forty Years on the Floor</title>
+<meta name="description" content="A tribute to Joe Kaminkow: pinball wizard, slot pioneer, six-time hall of famer, MacDaddy. Built by Gordon Bellamy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #141826;
+    --surface-2: #1c2236;
+    --ink: #f5f0e8;
+    --ink-dim: #b6b1a8;
+    --ink-mute: #6b6f7c;
+    --gold: #d4a356;
+    --gold-bright: #f0c878;
+    --crimson: #c84141;
+    --neon: #ff5fa2;
+    --cyan: #5ac8fa;
+    --rule: rgba(212, 163, 86, 0.18);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--gold); color: var(--bg); }
+
+  .display { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .gold { color: var(--gold); }
+  .crimson { color: var(--crimson); }
+  .neon { color: var(--neon); }
+  .dim { color: var(--ink-dim); }
+  .mute { color: var(--ink-mute); }
+
+  /* HERO */
+  header.hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 1.5rem 3rem;
+    overflow: hidden;
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(255, 95, 162, 0.10), transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(90, 200, 250, 0.08), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(212, 163, 86, 0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 2; max-width: 980px; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+  }
+  h1.name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 0 0 1.2rem;
+  }
+  h1.name .first { display: block; color: var(--ink); }
+  h1.name .last {
+    display: block;
+    color: var(--gold);
+    font-style: italic;
+    text-shadow: 0 0 30px rgba(212, 163, 86, 0.25);
+  }
+  .tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.4vw, 1.7rem);
+    color: var(--ink-dim);
+    max-width: 640px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.4;
+  }
+  .credits-bar {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 0;
+    padding: 1rem 1.6rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .credits-bar span:not(:last-child)::after {
+    content: '·';
+    color: var(--gold);
+    margin: 0 0.9rem;
+    font-weight: bold;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 1.5rem;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin: 0 0 0.6rem;
+  }
+  h2.section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 2.5rem;
+    max-width: 780px;
+  }
+  h2.section-title em { color: var(--gold); font-style: italic; }
+
+  /* NUMBERS */
+  .numbers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .stat {
+    background: linear-gradient(180deg, var(--surface), var(--surface-2));
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 2rem 1.6rem;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .stat:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 163, 86, 0.5);
+  }
+  .stat .num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: 3.4rem;
+    line-height: 1;
+    color: var(--gold-bright);
+    margin-bottom: 0.4rem;
+  }
+  .stat .num small { font-size: 1.5rem; color: var(--gold); }
+  .stat .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 1px solid var(--rule);
+    margin-top: 2rem;
+  }
+  .tl-item {
+    position: relative;
+    padding: 0 0 2.4rem 0.5rem;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2.45rem;
+    top: 0.45rem;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px var(--bg), 0 0 18px rgba(212, 163, 86, 0.5);
+  }
+  .tl-item .yr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .tl-item h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.55rem;
+    margin: 0 0 0.4rem;
+    color: var(--ink);
+  }
+  .tl-item p {
+    margin: 0;
+    color: var(--ink-dim);
+    max-width: 680px;
+    font-size: 0.98rem;
+  }
+
+  /* GAMES GRID */
+  .games-cluster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .games-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 2rem 1.8rem;
+  }
+  .games-card .kind {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .games-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .games-card li {
+    padding: 0.55rem 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    font-size: 0.95rem;
+  }
+  .games-card li:last-child { border-bottom: none; }
+  .games-card li em {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    color: var(--ink);
+    font-size: 1.08rem;
+  }
+  .games-card li small {
+    display: block;
+    color: var(--ink-mute);
+    font-size: 0.72rem;
+    margin-top: 0.15rem;
+    letter-spacing: 0.05em;
+  }
+  .games-card.featured {
+    background: linear-gradient(135deg, rgba(212, 163, 86, 0.08), rgba(255, 95, 162, 0.04));
+    border-color: rgba(212, 163, 86, 0.35);
+  }
+
+  /* HALLS */
+  .halls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .hall {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.4rem 1.2rem;
+    text-align: center;
+    position: relative;
+  }
+  .hall .crest {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .hall .nm {
+    font-size: 0.92rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+  }
+  .hall .yr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+  }
+
+  /* PERSONAL */
+  .personal-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2.5rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 760px) { .personal-grid { grid-template-columns: 1fr; } }
+  .personal-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 2rem;
+  }
+  .personal-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 1rem;
+    color: var(--ink);
+  }
+  .personal-card h3 .em { color: var(--gold); font-style: italic; }
+  .personal-card p { margin: 0 0 0.9rem; color: var(--ink-dim); }
+  .kv {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0.4rem 1.2rem;
+    margin-top: 1rem;
+    font-size: 0.92rem;
+  }
+  .kv dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    padding-top: 0.15rem;
+  }
+  .kv dd { margin: 0; color: var(--ink); }
+
+  /* POEM / VOICE */
+  .voice {
+    margin-top: 4rem;
+    background: linear-gradient(135deg, rgba(212, 163, 86, 0.05), rgba(0, 0, 0, 0));
+    border-left: 3px solid var(--gold);
+    padding: 2.5rem 2.5rem 2.5rem 2rem;
+    max-width: 820px;
+  }
+  .voice .ascript {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+  }
+  .voice blockquote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  .voice cite {
+    display: block;
+    margin-top: 1.4rem;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+  }
+
+  /* CRESTS / SPORTS / COLLECTOR */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.45rem 0.95rem;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    color: var(--ink-dim);
+  }
+  .badge .dot {
+    display: inline-block;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    margin-right: 0.55rem;
+    vertical-align: middle;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 4rem 1.5rem 3rem;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    margin-top: 4rem;
+  }
+  footer .built {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink-dim);
+    margin-bottom: 1rem;
+  }
+  footer .links {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  footer .links a {
+    color: var(--gold);
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  footer .links a:hover { color: var(--gold-bright); }
+  footer .signoff {
+    margin-top: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.18em;
+  }
+
+  /* Section dividers — soft */
+  section + section { padding-top: 4rem; }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .stat { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Six Halls of Fame · 150+ Patents · 1,500+ Games</div>
+    <h1 class="name">
+      <span class="first">Joe</span>
+      <span class="last">Kaminkow</span>
+    </h1>
+    <p class="tagline">From the silverball to the spinning reel — forty years of teaching the world how to play.</p>
+    <div class="credits-bar">
+      <span>Williams</span>
+      <span>Data East</span>
+      <span>Sega</span>
+      <span>IGT</span>
+      <span>Zynga</span>
+      <span>Aristocrat</span>
+    </div>
+  </div>
+  <div class="scroll-hint">scroll · the floor</div>
+</header>
+
+<section id="numbers">
+  <div class="section-label">By the Numbers</div>
+  <h2 class="section-title">Forty years on the floor, <em>and counting.</em></h2>
+  <div class="numbers">
+    <div class="stat"><div class="num">40<small>+</small></div><div class="lbl">Years Designing</div></div>
+    <div class="stat"><div class="num">150<small>+</small></div><div class="lbl">U.S. Patents</div></div>
+    <div class="stat"><div class="num">1,500<small>+</small></div><div class="lbl">Games Shipped</div></div>
+    <div class="stat"><div class="num">6</div><div class="lbl">Halls of Fame</div></div>
+  </div>
+</section>
+
+<section id="arc">
+  <div class="section-label">The Arc</div>
+  <h2 class="section-title">A career told in <em>five chapters</em>, no easy ones.</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="yr">1960s · Maryland</div>
+      <h3>Born into the trade</h3>
+      <p>Father was a Bally VP / General Vending exec. Joe grew up around the cabinets — the trade wasn't a career choice so much as a birthright.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">1983 · Curry College</div>
+      <h3>Diploma, then the floor</h3>
+      <p>Curry College, '83. Then straight into the industry that raised him.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">1984 · Williams Electronics</div>
+      <h3><em>Space Shuttle</em> saves Williams</h3>
+      <p>His first signature pinball release. Industry lore credits the title with keeping the lights on at Williams during a brutal stretch for coin-op. Joe was barely out of school.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">Nov 1986 · Data East Pinball</div>
+      <h3>Co-founds Data East with Gary Stern</h3>
+      <p>EVP Game Design. The Data East / Sega Pinball years produce a string of licensed-IP classics — <em>Last Action Hero</em>, <em>Tales from the Crypt</em>, <em>Jurassic Park</em>, <em>Apollo 13</em>, <em>Space Jam</em>, <em>Star Wars Trilogy: Special Edition</em>, <em>South Park</em>.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">1999–~2010 · IGT Reno</div>
+      <h3>Invents the branded slot</h3>
+      <p>Builds the <em>Wheel of Fortune</em> slot franchise — the title that effectively created the branded-IP slot category. <em>Sex and the City</em>, <em>The Price Is Right</em>, <em>Ghostbusters</em> follow. IGT names him Inventor of the Year.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">2010–2013 · The pause</div>
+      <h3>Reality TV. Broadway. Baseball.</h3>
+      <p>A three-year off-ramp by design. Minority owner of the <em>Harrisburg Senators</em> (Double-A). Producing credits in unscripted TV. Time on Broadway. The kind of pause most people in this business never give themselves.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">2013 · Spooky Cool → Zynga</div>
+      <h3>Co-founds Spooky Cool Labs. Sells to Zynga (Jun 19, 2013).</h3>
+      <p>Becomes Chief Creative Officer / Chief Game Designer at Zynga. Ships <em>Hit It Rich!</em>, <em>Wizard of Oz</em>, <em>Willy Wonka</em>, <em>Harry Potter</em> on the social-casino layer.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">Oct 10, 2022 · Aristocrat</div>
+      <h3>Chief Innovation Officer, Aristocrat Gaming</h3>
+      <p>Scope: Aristocrat Gaming + Pixel United + Anaxi (online RMG). Reports to CPO Matt Primmer. The NFL slot line — <em>Super Bowl Jackpots</em>, <em>Overtime Cash</em>, <em>NFL Kickoff</em>, <em>Winning Drive</em>, <em>Rings of Victory</em> — happens here.</p>
+    </div>
+    <div class="tl-item">
+      <div class="yr">2014–present · Ka-Pow Pinball</div>
+      <h3>The personal studio</h3>
+      <p>Runs Ka-Pow Pinball as a creative side project, collaborating with Stern. Releases <em>Batman '66</em> (2016) and <em>The Beatles</em> (2018, 1,964-unit limited). The pinball vein never closes.</p>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="section-label">Signature Creations</div>
+  <h2 class="section-title">The titles that <em>changed the floor.</em></h2>
+  <div class="games-cluster">
+
+    <div class="games-card featured">
+      <span class="kind">Pinball · Williams / Data East / Sega / Stern</span>
+      <ul>
+        <li><em>Space Shuttle</em><small>Williams · 1984</small></li>
+        <li><em>Last Action Hero</em><small>Data East · 1993</small></li>
+        <li><em>Tales from the Crypt</em><small>Data East · 1993</small></li>
+        <li><em>Jurassic Park</em><small>Data East · 1993</small></li>
+        <li><em>Apollo 13 · Space Jam</em><small>Sega · 1996</small></li>
+        <li><em>Star Wars Trilogy: Special Edition</em><small>Sega · 1997</small></li>
+        <li><em>South Park</em><small>Sega · 1999</small></li>
+        <li><em>Batman '66</em><small>Stern × Ka-Pow · 2016</small></li>
+        <li><em>The Beatles</em><small>Stern × Ka-Pow · 2018 · 1,964 units</small></li>
+      </ul>
+    </div>
+
+    <div class="games-card">
+      <span class="kind">Slots · IGT / Aristocrat</span>
+      <ul>
+        <li><em>Wheel of Fortune</em><small>IGT — the franchise that birthed branded slots</small></li>
+        <li><em>Sex and the City</em><small>IGT</small></li>
+        <li><em>The Price Is Right</em><small>IGT</small></li>
+        <li><em>Ghostbusters</em><small>IGT</small></li>
+        <li><em>Big Bang Theory</em><small></small></li>
+        <li><em>Game of Thrones</em><small></small></li>
+        <li><em>Britney Spears</em><small></small></li>
+        <li><em>Super Bowl Jackpots</em><small>Aristocrat · 2023</small></li>
+        <li><em>Overtime Cash · Super Bowl Link · NFL Kickoff · Winning Drive · Rings of Victory</em><small>Aristocrat NFL line</small></li>
+      </ul>
+    </div>
+
+    <div class="games-card">
+      <span class="kind">Social-casino · Zynga</span>
+      <ul>
+        <li><em>Hit It Rich!</em><small>His biggest at Zynga</small></li>
+        <li><em>Wizard of Oz Slots</em><small></small></li>
+        <li><em>Willy Wonka Slots</em><small></small></li>
+        <li><em>Harry Potter Slots</em><small></small></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section id="halls">
+  <div class="section-label">Halls of Fame</div>
+  <h2 class="section-title">Six crests, <em>one floor.</em></h2>
+  <div class="halls">
+    <div class="hall"><div class="crest">✦</div><div class="nm">Pinball Expo</div><div class="yr">2004</div></div>
+    <div class="hall"><div class="crest">✦</div><div class="nm">AGA Gaming</div><div class="yr">2017</div></div>
+    <div class="hall"><div class="crest">✦</div><div class="nm">EKG Slot Awards<br><small style="color:var(--ink-mute);font-size:0.7rem;">first-ever inductee</small></div><div class="yr">2020</div></div>
+    <div class="hall"><div class="crest">✦</div><div class="nm">Coin-Op Amusement Expo<br><small style="color:var(--ink-mute);font-size:0.7rem;">inaugural class</small></div><div class="yr">2023</div></div>
+    <div class="hall"><div class="crest">✦</div><div class="nm">Licensing International</div><div class="yr">2024</div></div>
+    <div class="hall"><div class="crest">✦</div><div class="nm">IGT Inventor of the Year</div><div class="yr">—</div></div>
+  </div>
+  <p style="margin-top:1.5rem;color:var(--ink-mute);font-size:0.88rem;">Plus <em style="color:var(--ink-dim);">Strictly Slots</em> Top 10 Most Influential.</p>
+</section>
+
+<section id="personal">
+  <div class="section-label">Off the Floor</div>
+  <h2 class="section-title">The family <em>calls him MacDaddy.</em></h2>
+
+  <div class="personal-grid">
+
+    <div class="personal-card">
+      <h3>Family <span class="em">·</span> the through-line</h3>
+      <p>Wife <strong>Benita</strong>. Five children. Four grandchildren. The grandkids' name for him is <em>MacDaddy</em>, and the Vegas house has the toys to prove it.</p>
+      <p style="color:var(--ink-dim);font-style:italic;margin-top:1rem;">A trade legend who is, more importantly, a husband, a father, a grandfather, and the kind of friend who calls you back from Tokyo.</p>
+    </div>
+
+    <div class="personal-card">
+      <h3>The <span class="em">team sheet</span></h3>
+      <dl class="kv">
+        <dt>Hoops</dt><dd>Kentucky Wildcats</dd>
+        <dt>Football</dt><dd>Cincinnati Bengals · LA Rams</dd>
+        <dt>Hockey</dt><dd>Vegas Golden Knights <span class="mute">(on the glass)</span></dd>
+        <dt>Baseball</dt><dd>Harrisburg Senators <span class="mute">(minority owner)</span></dd>
+      </dl>
+    </div>
+
+    <div class="personal-card">
+      <h3>The <span class="em">collection</span></h3>
+      <p>Things Joe owns that tell you who Joe is:</p>
+      <div class="badges">
+        <span class="badge"><span class="dot"></span>James Bond–accurate Aston Martin DB5</span>
+        <span class="badge"><span class="dot"></span>'60s TV-show Batmobile</span>
+        <span class="badge"><span class="dot"></span>Modern art</span>
+        <span class="badge"><span class="dot"></span>Broadway</span>
+      </div>
+      <p style="margin-top:1rem;font-size:0.92rem;">A man whose collectibles all involve people piloting something fantastic at speed. Make of that what you will.</p>
+    </div>
+
+    <div class="personal-card">
+      <h3>The <span class="em">side practice</span></h3>
+      <p>Joe writes poetry. He sent a piece called <em>Holland</em> to Gordon in February — a gentle little compass-leaning, ticket-stamped-in-shades-of-blue meditation he'd written to comfort a friend. He offered to make it <span class="dim">"funnier, sadder, more romantic, or sharper and more ironic"</span> on request.</p>
+      <p>Forty years designing slot machines, six halls of fame, and a man who still volunteers to revise a poem for a friend.</p>
+    </div>
+
+  </div>
+
+  <div class="voice">
+    <div class="ascript">In Joe's voice</div>
+    <blockquote>
+      "If you want it funnier, sadder, more romantic, or sharper and more ironic, say the word — I'll tune it."
+    </blockquote>
+    <cite>— Joe Kaminkow, on a poem he wrote for a friend, Feb 2026</cite>
+  </div>
+
+</section>
+
+<section id="now">
+  <div class="section-label">Right Now</div>
+  <h2 class="section-title"><em>Live</em> events and the next frontier.</h2>
+  <div class="games-cluster">
+    <div class="games-card">
+      <span class="kind">Stage</span>
+      <ul>
+        <li><em>ICE Barcelona 2025</em><small>Keynote: "Attracting a Diverse Global Audience Through Branded IP"</small></li>
+        <li><em>Pinball Expo Chicago, Oct 2025</em><small>Hosted Homebrew Industry Awards · Inducted Tim Seckel into HOF with Gary Stern</small></li>
+        <li><em>G2E Las Vegas, Oct 2025</em><small>Aristocrat: 200+ titles, 80%+ new</small></li>
+        <li><em>ICE Barcelona 2026</em><small>Returning speaker</small></li>
+      </ul>
+    </div>
+    <div class="games-card">
+      <span class="kind">Frontier</span>
+      <ul>
+        <li><em>Live-event slots</em><small>U.S. App 2024/0112549 — real-time, live-event-driven slot mechanics. Not AI, not crypto. The next floor.</small></li>
+        <li><em>Ka-Pow Pinball</em><small>The personal studio. Stern collaborations continue.</small></li>
+        <li><em>Anaxi (online RMG)</em><small>Aristocrat's real-money-gaming arm under his innovation scope.</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="built">Built with affection by a friend, in a Sunday afternoon.</p>
+  <p class="links">
+    <a href="https://twitter.com/KapowPinball" target="_blank" rel="noopener">@KapowPinball</a>
+    ·
+    <span style="color:var(--ink-mute);">Las Vegas, NV</span>
+  </p>
+  <p class="signoff">A trusted lifer. — G</p>
+</footer>
+
+</body>
+</html>
