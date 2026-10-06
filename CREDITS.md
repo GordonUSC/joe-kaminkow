@@ -24,3 +24,8 @@ Barlow, Barlow Condensed, Bungee, Bungee Shade and Silkscreen are self-hosted fr
 All fourteen original career moments retain their reference links on `pinball.html`. Hall of Fame inductions are separated from other industry recognition. The personal dedication expresses Gordon’s admiration for Joe’s creativity and generosity.
 
 The new Imagination Machine is free creative play: no money, purchases, prizes, cash value or gambling services. All nine stories are available without playing.
+
+## Showroom and mechanical sound (October 6, 2026)
+
+- `art/garage-showroom.webp`: optimized from an original Higgsfield-generated cinematic grand-tourer study (job `230714a5-888e-4b6a-9994-3c3092d8bf14`). It is an imagined, unbranded design study, not a photograph or accurate model of Joe's actual DB5. No editorial photography was copied.
+- `audio/joe-reel-roll.mp3`, `audio/joe-reel-stop.mp3`, `audio/joe-reveal-chime.mp3`: original ElevenLabs sound-effects generation via Runway. Mechanical foley and a bell flourish, with no voices or requested copyrighted melody. Playback is opt-in, with no ambient loop; tab interruption stops the sounds.

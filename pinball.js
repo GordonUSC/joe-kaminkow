@@ -303,3 +303,6 @@
   window.__joek = { drainNow: function () { if (ball) { saveUntil = 0; ball.lane = false; ball.rail = -1; ball.y = H + 60; } }, state: function () { return { mode: mode, paused: paused, flippers: FL.map(function(f){return f.up;}), credits: credits, score: score, ballN: ballN, facts: factI, lane: ball && ball.lane, tilted: tilted }; } };
   requestAnimationFrame(loop);
 })();
+
+// Reading remains optional; original deep links open the complete archive.
+(()=>{const archive=document.getElementById('career-archive');function openHash(){if(['#story','#hiscore','#after'].includes(location.hash)){archive.open=true;document.querySelector(location.hash)?.scrollIntoView();}}openHash();window.addEventListener('hashchange',openHash);document.getElementById('skip').addEventListener('click',()=>{archive.open=true;});if(window.parent!==window){document.querySelectorAll('a[href^="index.html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();parent.postMessage({type:'close-joe-pinball',hash:a.hash},location.origin);}));}})();

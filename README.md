@@ -2,9 +2,9 @@
 
 A playable tribute from Gordon Bellamy and his team: bold play, extraordinary creativity and generosity.
 
-The site combines a sourced creative legacy, an original free-play Imagination Machine, a dedicated garage chapter, and the original Joe K pinball table with fourteen career moments.
+Play begins on the first screen: spin the original Imagination Machine or launch the Joe K pinball table. Explore a cinematic garage through lighting and detail controls, pass a spark, and open source-backed stories when curious. All fourteen original career moments remain available.
 
-- `index.html`, `site.css`, `site.js`: new tribute and nine-story reel experience.
+- `index.html`, `site.css`, `site.js`: immediate play, nine-story reels, original mechanical sounds, cinematic garage and optional history.
 - `pinball.html`, `pinball.js`: original pinball, now always free play with pause/resume and improved mobile/interruption handling.
 - `art/`, `audio/`, `fonts/`: original and retained local assets.
 - `CREDITS.md`: sources, collaborators, artwork and font licenses.
