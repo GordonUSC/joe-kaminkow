@@ -13,6 +13,7 @@
   var cv = document.getElementById('table'); if (!cv) return;
   var ctx = cv.getContext('2d'), dmd = document.getElementById('dmd'), dctx = dmd.getContext('2d');
   var FACTS = window.JOEK_FACTS || [], reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', function (e) { reduce = e.matches; });
   var bg = new Image(); bg.src = 'art/playfield.webp';
   var IMG_RATIO = 2688 / 1520, LANE = .085;
   var W = 0, H = 0, AW = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -50,7 +51,7 @@
   function fit(s, size, y) { octx.font = size + 'px Silkscreen, monospace'; var w = octx.measureText(s).width; octx.save(); octx.translate(64, y); if (w > 124) octx.scale(124 / w, 1); octx.fillText(s, 0, 0); octx.restore(); }
   var dmdKey = '';
   function drawDMD(t) {
-    var on = !dmdBlink || Math.floor(t / 480) % 2 === 0, key = dmdLines.join('|') + on + dmdBig + dmd.width;
+    var on = reduce || !dmdBlink || Math.floor(t / 480) % 2 === 0, key = dmdLines.join('|') + on + dmdBig + dmd.width;
     if (key === dmdKey) return; dmdKey = key;   /* redraw only when the picture changes: 4,096 dots is a lot for a phone at 60 fps */
     octx.fillStyle = '#000'; octx.fillRect(0, 0, 128, 32);
     if (on) {
@@ -83,18 +84,20 @@
   function X(r) { return r * AW; } function Y(r) { return r * H; }
 
   function resize() {
+    var oldAW = AW, oldH = H;
     var wrap = cv.parentElement.getBoundingClientRect(), small = innerWidth < 860;
     var maxH = small ? Math.max(360, innerHeight - (dmd.getBoundingClientRect().height || 90) - 150) : Math.max(380, innerHeight * .84);
     W = Math.floor(wrap.width); AW = Math.floor(W / (1 + LANE)); H = Math.floor(AW * IMG_RATIO);
     if (H > maxH) { H = Math.floor(maxH); AW = Math.floor(H / IMG_RATIO); W = Math.floor(AW * (1 + LANE)); }
     cv.style.width = W + 'px'; cv.style.height = H + 'px'; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (ball && oldAW && oldH) { ball.x *= AW / oldAW; ball.y *= H / oldH; ball.vx *= AW / oldAW; ball.vy *= H / oldH; if (ball.lane) ball.x = LANE_X(); }
     var dw = dmd.getBoundingClientRect().width; dmd.width = Math.max(256, Math.floor(dw * dpr)); dmd.height = Math.floor(dmd.width / 4);
   }
 
   /* ---------- game state ---------- */
   var HS = [['WORLD RECORD', 'JOE', 300000000], ['HIGHSCORE 2', 'GB', 275000000], ['HIGHSCORE 3', 'DBY', 250000000], ['HIGHSCORE 4', 'AST', 225000000]];
   var REPLAY_AT = 300000000;
-  var mode = 'attract', credits = 0, coins = 0, freePlay = false, ball = null, ballN = 0, score = 0, factI = 0, replayGot = false;
+  var mode = 'attract', credits = 0, coins = 0, freePlay = true, ball = null, ballN = 0, score = 0, factI = 0, replayGot = false;
   var launchT = 0, saveUntil = 0, tiltWarn = 0, nudges = [], tilted = false, skillLane = 0, skillLive = false, hold = 0, lit = {}, flash = {}, reelT = 0, lastAward = {};
   var LANE_X = function () { return AW + (W - AW) / 2; };
   var queue = [], queueUntil = 0, still = 0, savedThisBall = false;
@@ -102,7 +105,7 @@
 
   function showCredits() { say(freePlay ? 'FREE PLAY' : 'CREDITS ' + credits, freePlay || credits ? 'PRESS START' : '50 CENTS PER PLAY'); }
   function coin(value) {
-    initAudio(); soundOn = true; paintSound(); sfx('coin', W * .5);
+    if (soundOn) initAudio(); paintSound(); sfx('coin', W * .5);
     if (value === 100) credits += 3; else { coins += value; while (coins >= 50) { coins -= 50; credits++; } }
     paintCredits(); if (mode === 'attract') showCredits(); lampsOn();
   }
@@ -110,7 +113,8 @@
   function lampsOn() { document.body.classList.add('lit'); }
 
   function start() {
-    if (mode === 'game') return; if (!freePlay) { if (credits < 1) { showCredits(); return; } credits--; }
+    pauseGame(false);
+    if (mode !== 'attract') return; if (!freePlay) { if (credits < 1) { showCredits(); return; } credits--; }
     mode = 'game'; queue = []; queueUntil = 0; paintCredits(); lampsOn(); score = 0; ballN = 0; factI = 0; replayGot = false; tiltWarn = 0;
     document.querySelectorAll('[data-fact].lit').forEach(function (c) { c.classList.remove('lit'); });
     $('progress').textContent = '0 of ' + FACTS.length + ' lit';
@@ -123,6 +127,7 @@
     skillLane = 0; skillLive = true; say('BALL ' + ballN, 'FIRE FOR SKILL SHOT ' + (ballN + 1) + 'M');
   }
   function fire() {
+    if (paused) return;
     if (mode !== 'game' || !ball || !ball.lane || ball.vy) return;
     ball.vy = -2.35 * H; launchT = performance.now(); if (!savedThisBall) saveUntil = launchT + 11200; sfx('flipper', LANE_X());
     say(fmt(score), 'BALL ' + ballN);
@@ -141,6 +146,7 @@
     } else if (!queue.length && performance.now() > queueUntil) say(fmt(score), 'BALL ' + ballN);
   }
   function nudge() {
+    if (paused) return;
     if (mode !== 'game' || !ball || ball.lane || tilted) return;
     var now = performance.now(); nudges = nudges.filter(function (t) { return now - t < 2500; }); nudges.push(now);
     ball.vx += (Math.random() - .5) * .5 * AW; ball.vy -= .15 * H;
@@ -231,7 +237,7 @@
     if (mode === 'game' && skillLive && ball && ball.lane) { skillLane = Math.floor(t / 420) % 4; var sl = LANES[skillLane]; ctx.fillStyle = 'rgba(255,90,30,.9)'; ctx.beginPath(); ctx.arc(X(sl[0]), Y(sl[1]), .022 * AW, 0, 6.283); ctx.fill(); }
     BUMP.forEach(function (b, i) { if (flash['b' + i] > 0) { ctx.fillStyle = 'rgba(255,240,180,' + flash['b' + i] * .7 + ')'; ctx.beginPath(); ctx.arc(X(b[0]), Y(b[1]), b[2] * AW * 1.15, 0, 6.283); ctx.fill(); flash['b' + i] -= .06; } });
     LANES.forEach(function (l, i) { if (lit['lane' + i]) { ctx.fillStyle = 'rgba(255,200,60,.85)'; ctx.beginPath(); ctx.arc(X(l[0]), Y(l[1]), .018 * AW, 0, 6.283); ctx.fill(); } });
-    if (reelT > 0) { ctx.fillStyle = 'rgba(255,255,255,' + (Math.sin(t / 40) * .2 + .25) + ')'; ctx.fillRect(X(REELS[0]), Y(REELS[1]), X(REELS[2] - REELS[0]), Y(REELS[3] - REELS[1])); }
+    if (reelT > 0 && !reduce) { ctx.fillStyle = 'rgba(255,255,255,' + (Math.sin(t / 40) * .2 + .25) + ')'; ctx.fillRect(X(REELS[0]), Y(REELS[1]), X(REELS[2] - REELS[0]), Y(REELS[3] - REELS[1])); }
     FL.forEach(function (f) { var e = flipEnd(f); ctx.lineCap = 'round'; ctx.strokeStyle = '#7a0d0d'; ctx.lineWidth = FL_R * 2 * AW + 4; ctx.beginPath(); ctx.moveTo(X(f.px), Y(f.py)); ctx.lineTo(e[0], e[1]); ctx.stroke(); ctx.strokeStyle = '#fff4dc'; ctx.lineWidth = FL_R * 2 * AW - 2; ctx.stroke(); });
     if (ball) { var g = ctx.createRadialGradient(ball.x - 3, ball.y - 4, 1, ball.x, ball.y, RB * AW); g.addColorStop(0, '#ffffff'); g.addColorStop(.35, '#c9cfdb'); g.addColorStop(1, '#3b4250'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ball.x, ball.y, RB * AW, 0, 6.283); ctx.fill(); }
   }
@@ -245,9 +251,9 @@
   }
 
   /* ---------- input ---------- */
-  function setF(i, on) { if (mode !== 'game' || tilted) { FL[i].up = false; return; } if (FL[i].up !== on && on) sfx('flipper', i ? W * .85 : W * .15); FL[i].up = on; }
+  function setF(i, on) { if (paused || mode !== 'game' || tilted) { FL[i].up = false; return; } if (FL[i].up !== on && on) sfx('flipper', i ? W * .85 : W * .15); FL[i].up = on; }
   addEventListener('keydown', function (e) {
-    if (e.repeat) return; var k = e.key;
+    if (e.repeat || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; var k = e.key; if (k === ' ' && /BUTTON|A|SUMMARY/.test(e.target.tagName)) return;
     if (k === 'z' || k === 'Z' || k === 'ArrowLeft') { setF(0, true); if (mode === 'game') e.preventDefault(); }
     if (k === 'm' || k === 'M' || k === '/' || k === 'ArrowRight') { setF(1, true); if (mode === 'game') e.preventDefault(); }
     if (k === ' ' && mode === 'game') { e.preventDefault(); fire(); }
@@ -266,9 +272,24 @@
   $('startbtn').addEventListener('click', start);
   $('skip').addEventListener('click', function () { FACTS.forEach(function (f) { var c = document.querySelector('[data-fact="' + f.id + '"]'); if (c) c.classList.add('lit'); }); $('story').classList.add('open'); });
 
+  var paused = false, pauseAt = 0;
+  function pauseGame(next) {
+    if (paused === next) return;
+    paused = next;
+    setF(0, false); setF(1, false);
+    if (paused) { pauseAt = performance.now(); music.pause(); paintMusic(); }
+    else { var elapsed = performance.now() - pauseAt; saveUntil += elapsed; launchT += elapsed; if (queueUntil) queueUntil += elapsed; }
+    $('pausebtn').textContent = paused ? 'Resume' : 'Pause';
+    $('pausebtn').setAttribute('aria-pressed', paused);
+  }
+  $('pausebtn').addEventListener('click', function () { pauseGame(!paused); });
+  addEventListener('blur', function () { pauseGame(true); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) pauseGame(true); });
+  cv.addEventListener('touchcancel', function () { setF(0, false); setF(1, false); });
+  ['fl', 'fr'].forEach(function (id, i) { $(id).addEventListener('pointercancel', function () { setF(i, false); }); });
   var last = 0;
   function loop(t) {
-    var dt = Math.min(.033, (t - last) / 1000 || .016); last = t;
+    var dt = Math.min(.033, (t - last) / 1000 || .016); last = t; if (paused || document.hidden) { requestAnimationFrame(loop); return; }
     if (mode === 'attract') { attractT += dt; if (attractT > 2.4) { attractT = 0; var fr = attractFrames(); attractI = (attractI + 1) % fr.length; say(fr[attractI][0], fr[attractI][1]); } }
     if (reelT > 0) reelT -= dt;
     if (mode === 'game' && queue.length && t > queueUntil) { var q = queue.shift(); say(q[0], q[1]); queueUntil = t + 1900; } else if (!queue.length && mode === 'game' && queueUntil && t > queueUntil + 400) { queueUntil = 0; say(fmt(score), 'BALL ' + ballN); }
@@ -279,6 +300,6 @@
   resize(); addEventListener('resize', resize); paintCredits();
   if (document.fonts) document.fonts.load('8px Silkscreen').then(function () { dmdKey = ''; }, function () {}); if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { dmdKey = ''; });
   var fr0 = attractFrames(); say(fr0[0][0], fr0[0][1]);
-  window.__joek = { drainNow: function () { if (ball) { saveUntil = 0; ball.lane = false; ball.rail = -1; ball.y = H + 60; } }, state: function () { return { mode: mode, credits: credits, score: score, ballN: ballN, facts: factI, lane: ball && ball.lane, tilted: tilted }; } };
+  window.__joek = { drainNow: function () { if (ball) { saveUntil = 0; ball.lane = false; ball.rail = -1; ball.y = H + 60; } }, state: function () { return { mode: mode, paused: paused, flippers: FL.map(function(f){return f.up;}), credits: credits, score: score, ballN: ballN, facts: factI, lane: ball && ball.lane, tilted: tilted }; } };
   requestAnimationFrame(loop);
 })();

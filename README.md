@@ -1,3 +1,14 @@
-# joe-kaminkow
+# Joe Kaminkow — A World of Play
 
-A playable tribute to Joe Kaminkow from Gordon Bellamy and his team: an original pinball backglass and playfield (made with Higgsfield), a dot-matrix display, and twelve sourced moments of his career. Sounds and the attract theme by ElevenLabs.
+A playable tribute from Gordon Bellamy and his team: bold play, extraordinary creativity and generosity.
+
+The site combines a sourced creative legacy, an original free-play Imagination Machine, a dedicated garage chapter, and the original Joe K pinball table with fourteen career moments.
+
+- `index.html`, `site.css`, `site.js`: new tribute and nine-story reel experience.
+- `pinball.html`, `pinball.js`: original pinball, now always free play with pause/resume and improved mobile/interruption handling.
+- `art/`, `audio/`, `fonts/`: original and retained local assets.
+- `CREDITS.md`: sources, collaborators, artwork and font licenses.
+
+Serve locally with `python3 -m http.server 8849 --bind 127.0.0.1` and open http://127.0.0.1:8849/ . No build process or runtime dependencies are needed. The source links require internet; the site itself uses self-hosted assets.
+
+Neither game accepts money or awards prizes. Sound is opt-in. The new reel toy respects reduced motion and provides every story as ordinary text as well.
