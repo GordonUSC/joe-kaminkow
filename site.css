@@ -8,3 +8,22 @@
 /* The original cinematic study is a stage, not documentary photography. */
 .showroom{margin-top:25px}.room-number,.ceiling-light{display:none}.car-art{mask-image:linear-gradient(transparent,#000 12%,#000 90%,transparent);filter:brightness(.65);height:auto}.showroom.lit .car-art{filter:brightness(1.04)}.showroom.lit{background:none}.art-label{bottom:3%;color:#b0bfaa;text-shadow:0 1px 4px #000}.hotspot:nth-child(1){--x:41%!important;--y:56%!important}.hotspot:nth-child(2){--x:55%!important;--y:32%!important}.hotspot:nth-child(3){--x:79%!important;--y:56%!important}@media(max-width:700px){.showroom{margin-top:25px;min-height:0}.car-art{width:115%;margin-left:-7.5%;height:auto}.art-label{font-size:6px;bottom:0}.hotspot:nth-child(1){--x:36%!important;--y:57%!important}.hotspot:nth-child(2){--x:51%!important;--y:29%!important}.hotspot:nth-child(3){--x:79%!important;--y:54%!important}}
 @media(max-width:700px){.hero{padding-top:20px}.hero-copy{gap:6px 15px}.hero-copy>.eyebrow{display:none}.hero h1{margin:6px 0 12px}.hero-line{grid-row:auto}.hero-actions{margin:4px 0 18px}.reel{height:96px}.machine-screen .screen-kicker{display:none}.machine-screen p{margin-top:0}.machine-screen{padding:12px 5px}}
+/* Type floor, 2026-10-06. Gordon: "the fonts are too small." Reading text 17px, labels 12px minimum, controls 15px+. Last in the file so it wins at every width. */
+.wordmark span{font-size:12px;letter-spacing:1px}.topbar nav a{font-size:14px;letter-spacing:1px}.sound-global{font-size:14px}
+.eyebrow,.hero-copy>.eyebrow,.section-top .eyebrow,.archive-top .eyebrow,.personal-note .eyebrow,.reveal-card .eyebrow,.detail-readout .eyebrow{font-size:13px;letter-spacing:1.4px}
+.button,.hero-actions .button,.section-top .button,#pinball-room form .button{font-size:16px}.text-link,.hero-actions .text-link{font-size:16px}
+.hero-line{font-size:clamp(19px,2vw,26px)}.edition{font-size:12px}.hero-floor{font-size:12px;letter-spacing:1px}
+.stage-label{font-size:12px;letter-spacing:1px}.machine-top{font-size:12px;letter-spacing:1.4px}.screen-kicker{font-size:12px;letter-spacing:2px}
+.lens-picker span{font-size:15px}.hold{font-size:13px}.small-controls button{font-size:14px}.machine-help{font-size:15px;line-height:1.45}.machine-bottom{font-size:12px;letter-spacing:1px}
+.reveal-card details{font-size:17px}.reveal-card summary{font-size:15px}.reveal-card a{font-size:15px}
+.hotspot{font-size:15px}.art-label{font-size:12px;letter-spacing:1px}
+.detail-readout p:not(.eyebrow){font-size:17px}.detail-readout a{font-size:15px}.collection-header span,.collection-header>span{font-size:15px}
+.car-tabs button span{font-size:12px;letter-spacing:1px}.car-detail>span{font-size:12px}.car-detail p{font-size:17px}
+.pinball-door>span{font-size:12px}
+.legacy-drawer>summary,.story-shelf>summary,.sources summary{font-size:17px}
+.chapter p:not(.eyebrow),.honors-grid>div>p,#all-stories p{font-size:17px}.chapter .credit,.source-line{font-size:15px!important}.chapter a,#all-stories a{font-size:15px}
+.timeline-link{font-size:16px}.honor-list li{font-size:17px}.honor-list span{font-size:13px}
+.personal-note>p:last-child{font-size:16px}.source-notes p{font-size:15px}
+footer p{font-size:14px}footer>a:last-child{font-size:12px}#pinball-room form>span{font-size:12px}.no-script{font-size:15px}
+@media(max-width:700px){.topbar nav a{font-size:13px;letter-spacing:.5px}.wordmark span{font-size:11px}.hero-floor{font-size:11px}.machine-bottom{font-size:11px;letter-spacing:.5px}.hold{font-size:12px}.car-tabs button span{font-size:11px}.honor-list span{font-size:12px}}
+@media(max-width:700px){.topbar nav{display:none}.wordmark span{font-size:11px;white-space:nowrap}.sound-global{white-space:nowrap;font-size:14px}}
